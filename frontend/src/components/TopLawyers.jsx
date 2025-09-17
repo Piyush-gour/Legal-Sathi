@@ -13,10 +13,10 @@ const TopLawyers = () => {
         Browse through our extensive list of trusted legal experts and book your consultation.
       </p>
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-5 gap-y-6 px-3 sm:px-0">
-        {lawyers.slice(0, 10).map((item, index) => (
+        {lawyers.slice(0, 10).filter(item => item != null && item._id && item.name).map((item, index) => (
           <div
             onClick={() => {
-              navigate(`/consultation/${item._id}`);
+              navigate(`/lawyer/${item._id}`);
               scrollTo(0, 0);
             }}
             className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] transition-all duration-500"
@@ -30,15 +30,15 @@ const TopLawyers = () => {
             <div className="p-4">
               <div
                 className={`flex items-center gap-2 text-sm text-center ${
-                  item.available ? "text-green-500" : "text-gray-500"
+                  item?.available ? "text-green-500" : "text-gray-500"
                 }`}
               >
                 <p
                   className={`w-2 h-2 ${
-                    item.available ? "bg-green-500" : "bg-gray-500"
+                    item?.available ? "bg-green-500" : "bg-gray-500"
                   } rounded-full`}
                 ></p>
-                <p>{item.available ? "Available" : "Not Available"}</p>
+                <p>{item?.available ? "Available" : "Not Available"}</p>
               </div>
               <p className="text-gray-900 text-lg font-medium">{item.name}</p>
               <p className="text-gray-600 text-sm">{item.practiceArea}</p>

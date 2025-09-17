@@ -10,6 +10,19 @@ export const useAuth = () => {
   return context;
 };
 
+// Utility function to safely parse JSON
+const safeJSONParse = (str) => {
+  if (!str || str === 'undefined' || str === 'null') {
+    return null;
+  }
+  try {
+    return JSON.parse(str);
+  } catch (error) {
+    console.error('JSON parse error:', error);
+    return null;
+  }
+};
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [lawyer, setLawyer] = useState(null);
@@ -23,23 +36,35 @@ export const AuthProvider = ({ children }) => {
     const adminToken = localStorage.getItem('adminToken');
 
     if (userToken) {
-      const userData = localStorage.getItem('userData');
+      const userData = safeJSONParse(localStorage.getItem('userData'));
       if (userData) {
-        setUser(JSON.parse(userData));
+        setUser(userData);
+      } else if (localStorage.getItem('userData')) {
+        // Clean up corrupted data
+        localStorage.removeItem('userData');
+        localStorage.removeItem('userToken');
       }
     }
 
     if (lawyerToken) {
-      const lawyerData = localStorage.getItem('lawyerData');
+      const lawyerData = safeJSONParse(localStorage.getItem('lawyerData'));
       if (lawyerData) {
-        setLawyer(JSON.parse(lawyerData));
+        setLawyer(lawyerData);
+      } else if (localStorage.getItem('lawyerData')) {
+        // Clean up corrupted data
+        localStorage.removeItem('lawyerData');
+        localStorage.removeItem('lawyerToken');
       }
     }
 
     if (adminToken) {
-      const adminData = localStorage.getItem('adminData');
+      const adminData = safeJSONParse(localStorage.getItem('adminData'));
       if (adminData) {
-        setAdmin(JSON.parse(adminData));
+        setAdmin(adminData);
+      } else if (localStorage.getItem('adminData')) {
+        // Clean up corrupted data
+        localStorage.removeItem('adminData');
+        localStorage.removeItem('adminToken');
       }
     }
 
@@ -47,39 +72,57 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const userLogin = (token, userData) => {
-    setUser(userData);
-    localStorage.setItem('userToken', token);
-    localStorage.setItem('userData', JSON.stringify(userData));
+    if (token && userData && typeof userData === 'object') {
+      setUser(userData);
+      localStorage.setItem('userToken', token);
+      localStorage.setItem('userData', JSON.stringify(userData));
+    } else {
+      console.error('Invalid user login data');
+    }
   };
 
   const lawyerLogin = (token, lawyerData) => {
-    setLawyer(lawyerData);
-    localStorage.setItem('lawyerToken', token);
-    localStorage.setItem('lawyerData', JSON.stringify(lawyerData));
+    if (token && lawyerData && typeof lawyerData === 'object') {
+      setLawyer(lawyerData);
+      localStorage.setItem('lawyerToken', token);
+      localStorage.setItem('lawyerData', JSON.stringify(lawyerData));
+    } else {
+      console.error('Invalid lawyer login data');
+    }
   };
 
   const loginAdmin = (adminData, token) => {
-    setAdmin(adminData);
-    localStorage.setItem('adminToken', token);
-    localStorage.setItem('adminData', JSON.stringify(adminData));
+    if (token && adminData && typeof adminData === 'object') {
+      setAdmin(adminData);
+      localStorage.setItem('adminToken', token);
+      localStorage.setItem('adminData', JSON.stringify(adminData));
+    } else {
+      console.error('Invalid admin login data');
+    }
   };
 
-  const logoutUser = () => {
+  const userLogout = () => {
     setUser(null);
     localStorage.removeItem('userToken');
     localStorage.removeItem('userData');
+    // Dispatch event to notify AppContext
+    window.dispatchEvent(new Event('userLoggedOut'));
   };
 
-  const logoutLawyer = () => {
+  const lawyerLogout = () => {
     setLawyer(null);
     localStorage.removeItem('lawyerToken');
     localStorage.removeItem('lawyerData');
+    // Dispatch event to notify AppContext
+    window.dispatchEvent(new Event('lawyerLoggedOut'));
   };
 
   const logoutAdmin = () => {
     setAdmin(null);
     localStorage.removeItem('adminToken');
     localStorage.removeItem('adminData');
+    // Dispatch event to notify AppContext
+    window.dispatchEvent(new Event('adminLoggedOut'));
   };
 
   const getUserRole = () => {
@@ -104,8 +147,8 @@ export const AuthProvider = ({ children }) => {
     userLogin,
     lawyerLogin,
     loginAdmin,
-    logoutUser,
-    logoutLawyer,
+    userLogout,
+    lawyerLogout,
     logoutAdmin,
     getUserRole,
     getToken,

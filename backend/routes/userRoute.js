@@ -8,6 +8,7 @@ import {
   listAppointment,
   cancelAppointment,
   getAllLawyers,
+  getLawyerProfile,
   requestConsultation,
   getUserConsultations,
   createPaymentOrder,
@@ -33,6 +34,7 @@ userRouter.post("/book-appointment", authUser, bookAppointment);
 userRouter.get("/appointments", authUser, listAppointment);
 userRouter.post("/cancel-appointment", authUser, cancelAppointment);
 userRouter.get("/lawyers", getAllLawyers);
+userRouter.get("/lawyer/:lawyerId", getLawyerProfile);
 userRouter.post("/request-consultation", authUser, requestConsultation);
 userRouter.get("/consultations", authUser, getUserConsultations);
 userRouter.get("/consultation-requests", authUser, getUserConsultations);

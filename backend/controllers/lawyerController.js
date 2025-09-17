@@ -124,7 +124,9 @@ const registerLawyer = async (req, res) => {
       availability: {
         days: parsedAvailabilityDays,
         timings: availabilityTimings
-      }
+      },
+      approved: false, // Explicitly set to false for admin approval
+      available: true  // Available once approved
     };
 
     try {

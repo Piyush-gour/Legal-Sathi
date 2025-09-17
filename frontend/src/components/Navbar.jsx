@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { assets } from "../assets/assets";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import UserStatus from "./UserStatus";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { user, lawyer, userLogout, lawyerLogout, getUserRole } = useAuth();
+  const { user, lawyer, admin, userLogout, lawyerLogout, logoutAdmin, getUserRole } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
 
-  const currentUser = user || lawyer;
+  const currentUser = user || lawyer || admin;
   const userRole = getUserRole();
 
   const logout = () => {
@@ -16,6 +17,8 @@ const Navbar = () => {
       userLogout();
     } else if (userRole === 'lawyer') {
       lawyerLogout();
+    } else if (userRole === 'admin') {
+      logoutAdmin();
     }
     navigate('/');
   };
@@ -78,102 +81,42 @@ const Navbar = () => {
           </>
         )}
         
+        {/* Navigation for Admin */}
+        {userRole === 'admin' && (
+          <>
+            <NavLink to="/admin-dashboard">
+              <li className="py-1 px-2">ADMIN DASHBOARD</li>
+              <hr className="border-none outline-none h-0.5 bg-[#5F6FFF]  w-3/5 m-auto hidden" />
+            </NavLink>
+            <NavLink to="/admin-dashboard">
+              <li className="py-1 px-2">MANAGE LAWYERS</li>
+              <hr className="border-none outline-none h-0.5 bg-[#5F6FFF]  w-3/5 m-auto hidden" />
+            </NavLink>
+            <NavLink to="/admin-dashboard">
+              <li className="py-1 px-2">MANAGE USERS</li>
+              <hr className="border-none outline-none h-0.5 bg-[#5F6FFF]  w-3/5 m-auto hidden" />
+            </NavLink>
+          </>
+        )}
+        
         {/* Common Links */}
         <NavLink to="/contact">
           <li className="py-1 px-2">CONTACT</li>
           <hr className="border-none outline-none h-0.5 bg-[#5F6FFF]  w-3/5 m-auto hidden" />
         </NavLink>
         
-        <button
-          onClick={() => navigate('/admin-login')}
-          className="py-1 bg-red-600 text-white px-4 rounded hover:bg-red-700 ml-2"
-        >
-          ADMIN
-        </button>
+        {userRole !== 'admin' && (
+          <button
+            onClick={() => navigate('/admin-login')}
+            className="py-1 bg-red-600 text-white px-4 rounded hover:bg-red-700 ml-2"
+          >
+            ADMIN
+          </button>
+        )}
       </ul>
       <div className="flex items-center gap-4">
         {currentUser ? (
-          <div className="flex items-center gap-2 cursor-pointer group relative">
-            <img className="w-8 rounded-full" src={currentUser.image || assets.profile_pic} alt="" />
-            <img className="w-2.5" src={assets.dropdown_icon} alt="" />
-            <div className="absolute top-0 right-0 pt-14 text-base font-medium text-gray-600 z-20 hidden group-hover:block">
-              <div className="min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4">
-                {/* User Role Header */}
-                <div className="border-b pb-2 mb-2">
-                  <p className="text-xs text-gray-500 uppercase">
-                    {userRole === 'user' ? 'Client Account' : 'Lawyer Account'}
-                  </p>
-                  <p className="font-semibold text-sm">{currentUser.name}</p>
-                </div>
-                
-                <p
-                  onClick={() => navigate(userRole === 'user' ? '/user-dashboard' : '/lawyer-dashboard')}
-                  className="hover:text-black cursor-pointer"
-                >
-                  Dashboard
-                </p>
-                <p
-                  onClick={() => navigate("/my-profile")}
-                  className="hover:text-black cursor-pointer"
-                >
-                  My Profile
-                </p>
-                
-                {/* User-specific menu items */}
-                {userRole === 'user' && (
-                  <>
-                    <p
-                      onClick={() => navigate("/my-consultations")}
-                      className="hover:text-black cursor-pointer"
-                    >
-                      My Consultations
-                    </p>
-                    <p
-                      onClick={() => navigate("/lawyers")}
-                      className="hover:text-black cursor-pointer"
-                    >
-                      Find Lawyers
-                    </p>
-                  </>
-                )}
-                
-                {/* Lawyer-specific menu items */}
-                {userRole === 'lawyer' && (
-                  <>
-                    <p
-                      onClick={() => navigate("/consultation-requests")}
-                      className="hover:text-black cursor-pointer"
-                    >
-                      Consultation Requests
-                    </p>
-                    <p
-                      onClick={() => navigate("/my-clients")}
-                      className="hover:text-black cursor-pointer"
-                    >
-                      My Clients
-                    </p>
-                    <p
-                      onClick={() => navigate("/earnings")}
-                      className="hover:text-black cursor-pointer"
-                    >
-                      Earnings & Reports
-                    </p>
-                    <p
-                      onClick={() => navigate("/availability-settings")}
-                      className="hover:text-black cursor-pointer"
-                    >
-                      Availability Settings
-                    </p>
-                  </>
-                )}
-                
-                <hr className="border-gray-300" />
-                <p onClick={logout} className="hover:text-black cursor-pointer text-red-600">
-                  Logout
-                </p>
-              </div>
-            </div>
-          </div>
+          <UserStatus />
         ) : (
           <div className="hidden md:flex gap-2 ml-4">
             <button
@@ -250,14 +193,35 @@ const Navbar = () => {
               </>
             )}
             
+            {/* Mobile menu for Admin */}
+            {userRole === 'admin' && (
+              <>
+                <NavLink onClick={() => setShowMenu(false)} to="/admin-dashboard">
+                  <p className="px-4 py-2 rounded inline-block">ADMIN DASHBOARD</p>
+                </NavLink>
+                <NavLink onClick={() => setShowMenu(false)} to="/admin-dashboard">
+                  <p className="px-4 py-2 rounded inline-block">MANAGE LAWYERS</p>
+                </NavLink>
+                <NavLink onClick={() => setShowMenu(false)} to="/admin-dashboard">
+                  <p className="px-4 py-2 rounded inline-block">MANAGE USERS</p>
+                </NavLink>
+              </>
+            )}
+            
             <NavLink onClick={() => setShowMenu(false)} to="/contact">
               <p className="px-4 py-2 rounded inline-block">CONTACT</p>
             </NavLink>
             
             {currentUser ? (
               <>
-                <NavLink onClick={() => setShowMenu(false)} to={userRole === 'user' ? '/user-dashboard' : '/lawyer-dashboard'}>
-                  <p className="px-4 py-2 rounded inline-block bg-blue-600 text-white hover:bg-blue-700">MY DASHBOARD</p>
+                <NavLink onClick={() => setShowMenu(false)} to={
+                  userRole === 'user' ? '/user-dashboard' : 
+                  userRole === 'lawyer' ? '/lawyer-dashboard' : 
+                  '/admin-dashboard'
+                }>
+                  <p className="px-4 py-2 rounded inline-block bg-blue-600 text-white hover:bg-blue-700">
+                    {userRole === 'admin' ? 'ADMIN DASHBOARD' : 'MY DASHBOARD'}
+                  </p>
                 </NavLink>
                 {userRole === 'user' && (
                   <NavLink onClick={() => setShowMenu(false)} to="/my-consultations">
@@ -280,15 +244,17 @@ const Navbar = () => {
                 <NavLink onClick={() => setShowMenu(false)} className='py-1 px-3 rounded inline-block bg-green-600 text-white hover:bg-green-700' to='/lawyer-login'>LAWYER LOGIN</NavLink>
               </>
             )}
-            <button
-              onClick={() => {
-                setShowMenu(false);
-                navigate('/admin-login');
-              }}
-              className="py-1 px-3 rounded inline-block bg-red-600 text-white hover:bg-red-700"
-            >
-              ADMIN
-            </button>
+            {userRole !== 'admin' && (
+              <button
+                onClick={() => {
+                  setShowMenu(false);
+                  navigate('/admin-login');
+                }}
+                className="py-1 px-3 rounded inline-block bg-red-600 text-white hover:bg-red-700"
+              >
+                ADMIN
+              </button>
+            )}
           </ul>
         </div>
       </div>

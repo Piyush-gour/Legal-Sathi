@@ -157,6 +157,71 @@ const About = () => {
             </div>
           </div>
         </div>
+
+        {/* Our Team Section */}
+        <div className="mb-16">
+          <h2 className="text-3xl font-bold text-gray-800 mb-12 text-center">
+            OUR <span className="text-blue-600">TEAM</span>
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Lawyer 1 */}
+            <div className="bg-blue-50 rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:scale-105">
+              <div className="bg-blue-100 rounded-lg p-4 mb-4 flex justify-center">
+                <img 
+                  src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGF3eWVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" 
+                  alt="Lawyer 1" 
+                  className="w-40 h-40 object-cover rounded-full border-4 border-white shadow-md"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-center text-gray-800 mb-1">John Smith</h3>
+              <p className="text-blue-600 text-center text-sm font-medium mb-2">Criminal Law Expert</p>
+              <p className="text-gray-600 text-center text-sm">10+ years of experience in criminal defense</p>
+            </div>
+
+            {/* Lawyer 2 */}
+            <div className="bg-blue-50 rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:scale-105">
+              <div className="bg-blue-100 rounded-lg p-4 mb-4 flex justify-center">
+                <img 
+                  src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bGF3eWVyfGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60" 
+                  alt="Lawyer 2" 
+                  className="w-40 h-40 object-cover rounded-full border-4 border-white shadow-md"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-center text-gray-800 mb-1">Sarah Johnson</h3>
+              <p className="text-blue-600 text-center text-sm font-medium mb-2">Family Law Specialist</p>
+              <p className="text-gray-600 text-center text-sm">8+ years of experience in family law</p>
+            </div>
+
+            {/* Lawyer 3 */}
+            <div className="bg-blue-50 rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:scale-105">
+              <div className="bg-blue-100 rounded-lg p-4 mb-4 flex justify-center">
+                <img 
+                  src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGxhd3llcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" 
+                  alt="Lawyer 3" 
+                  className="w-40 h-40 object-cover rounded-full border-4 border-white shadow-md"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-center text-gray-800 mb-1">Michael Chen</h3>
+              <p className="text-blue-600 text-center text-sm font-medium mb-2">Corporate Law Expert</p>
+              <p className="text-gray-600 text-center text-sm">12+ years of experience in corporate law</p>
+            </div>
+
+            {/* Lawyer 4 */}
+            <div className="bg-blue-50 rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:scale-105">
+              <div className="bg-blue-100 rounded-lg p-4 mb-4 flex justify-center">
+                <img 
+                  src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGxhd3llcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60" 
+                  alt="Lawyer 4" 
+                  className="w-40 h-40 object-cover rounded-full border-4 border-white shadow-md"
+                />
+              </div>
+              <h3 className="text-xl font-bold text-center text-gray-800 mb-1">Emily Rodriguez</h3>
+              <p className="text-blue-600 text-center text-sm font-medium mb-2">Immigration Law Specialist</p>
+              <p className="text-gray-600 text-center text-sm">7+ years of experience in immigration law</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

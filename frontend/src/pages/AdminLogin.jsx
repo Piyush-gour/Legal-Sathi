@@ -40,19 +40,23 @@ const AdminLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-xl shadow-lg">
-        <div>
-          <div className="flex justify-center">
-            <img className="h-16 w-auto" src={assets.logo} alt="Legal Sathi" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        {/* Admin Login Card */}
+        <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200">
+          <div className="text-center">
+            <div className="flex justify-center mb-6">
+              <div className="bg-red-600 p-4 rounded-full">
+                <img className="h-12 w-auto filter brightness-0 invert" src={assets.admin_logo} alt="Legal Sathi Admin" />
+              </div>
+            </div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              Admin Portal
+            </h2>
+            <p className="text-gray-600 mb-8">
+              Legal Sathi Admin Section
+            </p>
           </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Legal Sathi Admin
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Administrative Access Portal
-          </p>
-        </div>
         
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="space-y-4">
@@ -119,12 +123,20 @@ const AdminLogin = () => {
             <button
               type="button"
               onClick={() => navigate('/')}
-              className="text-blue-600 hover:text-blue-500 text-sm"
+              className="text-gray-600 hover:text-gray-800 text-sm font-medium"
             >
-              Back to Home
+              ← Back to Home
             </button>
           </div>
         </form>
+        </div>
+        
+        {/* Footer */}
+        <div className="text-center">
+          <p className="text-gray-500 text-sm">
+            © 2024 Legal Sathi. All rights reserved.
+          </p>
+        </div>
       </div>
     </div>
   );

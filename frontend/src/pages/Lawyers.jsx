@@ -19,7 +19,8 @@ const Lawyers = () => {
     if (practiceArea) {
       // Decode the URL parameter to handle spaces properly
       const decodedPracticeArea = decodeURIComponent(practiceArea);
-      setFilterLawyers(lawyers.filter((lawyer) => lawyer.practiceArea === decodedPracticeArea));
+      const filtered = lawyers.filter((lawyer) => lawyer.practiceArea === decodedPracticeArea);
+      setFilterLawyers(filtered);
     } else {
       // Group lawyers by practice area when showing all
       const practiceAreas = ['Corporate Law', 'Criminal Law', 'Family Law', 'Real Estate Law', 'Employment Law', 'Immigration Law'];
@@ -142,7 +143,7 @@ const Lawyers = () => {
           </p>
         </div>
         <div className="w-full">
-          {filterLawyers.map((item, index) => {
+          {filterLawyers.filter(item => item != null).map((item, index) => {
             // Render practice area header
             if (item.type === 'header') {
               return (
@@ -154,10 +155,18 @@ const Lawyers = () => {
               );
             }
             
+            // Skip if item is null or doesn't have required properties
+            if (!item || !item._id || !item.name) {
+              return null;
+            }
+            
             // Render lawyer card
             return (
               <div key={index} className="mb-6">
-                <div className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-2px] transition-all duration-300 shadow-sm hover:shadow-md">
+                <div 
+                  onClick={() => navigate(`/lawyer/${item._id}`)}
+                  className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-2px] transition-all duration-300 shadow-sm hover:shadow-md"
+                >
                   <div className="flex flex-col sm:flex-row">
                     <div className="sm:w-48 sm:h-48 w-full h-48">
                       <img className="w-full h-full object-cover bg-blue-50" src={item.image} alt="" />
@@ -171,15 +180,15 @@ const Lawyers = () => {
                         </div>
                         <div
                           className={`flex items-center gap-2 text-sm px-3 py-1 rounded-full ${
-                            item.available ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
+                            item?.available ? "bg-green-100 text-green-700" : "bg-gray-100 text-gray-600"
                           }`}
                         >
                           <p
                             className={`w-2 h-2 ${
-                              item.available ? "bg-green-500" : "bg-gray-500"
+                              item?.available ? "bg-green-500" : "bg-gray-500"
                             } rounded-full`}
                           ></p>
-                          <p>{item.available ? "Available" : "Not Available"}</p>
+                          <p>{item?.available ? "Available" : "Not Available"}</p>
                         </div>
                       </div>
                       

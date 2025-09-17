@@ -98,7 +98,12 @@ const loginAdmin = async (req, res) => {
       password === process.env.ADMIN_PASSWORD
     ) {
       const token = jwt.sign({ email: email, password: password }, process.env.JWT_SECRET);
-      res.json({ success: true, token });
+      const admin = {
+        email: email,
+        name: "Admin",
+        role: "admin"
+      };
+      res.json({ success: true, token, admin });
     } else {
       res.json({ success: false, message: "Invalid credentials" });
     }
@@ -176,8 +181,9 @@ const allLawyers = async (req, res) => {
 // API to get pending lawyer registrations
 const pendingLawyers = async (req, res) => {
   try {
-    const pendingLawyers = await lawyerModel.find({ approved: false }).select("-password");
-    res.json({ success: true, pendingLawyers });
+    const lawyers = await lawyerModel.find({ approved: false }).select("-password");
+    console.log(`Found ${lawyers.length} pending lawyer registrations`);
+    res.json({ success: true, lawyers });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });

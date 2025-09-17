@@ -262,8 +262,79 @@ const getAllLawyers = async (req, res) => {
       available: { $ne: false } // Include lawyers where available is not explicitly false
     }).select('-password');
     
-    console.log(`Found ${lawyers.length} approved and available lawyers`);
-    res.json({ success: true, lawyers });
+    // Transform the data to match frontend expectations
+    const transformedLawyers = lawyers.map(lawyer => ({
+      _id: lawyer._id,
+      name: lawyer.name,
+      email: lawyer.email,
+      image: lawyer.image || '/default-avatar.png',
+      practiceArea: lawyer.practiceArea || lawyer.speciality, // Use practiceArea or fallback to speciality
+      speciality: lawyer.speciality,
+      degree: lawyer.qualification,
+      qualification: lawyer.qualification,
+      experience: lawyer.experience,
+      about: lawyer.about,
+      fees: lawyer.fees,
+      available: lawyer.available,
+      approved: lawyer.approved,
+      address: lawyer.address,
+      phone: lawyer.phone,
+      city: lawyer.city,
+      state: lawyer.state,
+      languages: lawyer.languages,
+      rating: lawyer.rating || 4.5, // Default rating
+      reviews: lawyer.reviewCount || Math.floor(Math.random() * 200) + 50, // Default review count
+      barCouncilId: lawyer.barCouncilId
+    }));
+    
+    console.log(`Found ${transformedLawyers.length} approved and available lawyers`);
+    res.json({ success: true, lawyers: transformedLawyers });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// API to get single lawyer profile
+const getLawyerProfile = async (req, res) => {
+  try {
+    const { lawyerId } = req.params;
+    const lawyer = await lawyerModel.findOne({ 
+      _id: lawyerId,
+      approved: true,
+      available: { $ne: false }
+    }).select('-password');
+    
+    if (!lawyer) {
+      return res.json({ success: false, message: "Lawyer not found or not available" });
+    }
+    
+    // Transform the data to match frontend expectations
+    const transformedLawyer = {
+      _id: lawyer._id,
+      name: lawyer.name,
+      email: lawyer.email,
+      image: lawyer.image || '/default-avatar.png',
+      practiceArea: lawyer.practiceArea || lawyer.speciality,
+      speciality: lawyer.speciality,
+      degree: lawyer.qualification,
+      qualification: lawyer.qualification,
+      experience: lawyer.experience,
+      about: lawyer.about,
+      fees: lawyer.fees,
+      available: lawyer.available,
+      approved: lawyer.approved,
+      address: lawyer.address,
+      phone: lawyer.phone,
+      city: lawyer.city,
+      state: lawyer.state,
+      languages: lawyer.languages,
+      rating: lawyer.rating || 4.5,
+      reviews: lawyer.reviewCount || Math.floor(Math.random() * 200) + 50,
+      barCouncilId: lawyer.barCouncilId
+    };
+    
+    res.json({ success: true, lawyer: transformedLawyer });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -408,6 +479,7 @@ export {
   listAppointment,
   cancelAppointment,
   getAllLawyers,
+  getLawyerProfile,
   requestConsultation,
   getUserConsultations,
   createPaymentOrder,

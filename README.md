@@ -1,8 +1,8 @@
 # LegalSathi - Legal Consultation Platform
 
-[![Vercel](https://img.shields.io/badge/Visit%20Live%20Demo-000000?style=for-the-badge&logo=vercel&labelColor=000000)](https://legal-sathi-bcnp.vercel.app/)
+[![Vercel](https://img.shields.io/badge/Visit%20Live%20Demo-000000?style=for-the-badge&logo=vercel&labelColor=000000)](https://legal-sathi-lac.vercel.app/)
 
-> 🌐 **Live Demo:** [https://legal-sathi-bcnp.vercel.app/](https://legal-sathi-bcnp.vercel.app/)
+> 🌐 **Live Demo:** [https://legal-sathi-lac.vercel.app/](https://legal-sathi-lac.vercel.app/)
 
 
 LegalSathi is a comprehensive legal consultation platform that connects clients with legal professionals. The platform features a three-tier authentication system to serve different user roles:

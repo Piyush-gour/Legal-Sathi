@@ -1,3 +1,62 @@
-PRESCRIPTO 
+# LegalSathi - Legal Consultation Platform
 
-This full stack appointment booking system can be used by a doctor or a hospital. Because in this project I have created 3 level of authentication. 1st one is for Patients, so that patient can login on the website, book appointment with doctor and manage the booked appointment. 2nd one is doctor login, so that doctor can login and check the appointment and their earning. Doctor can update their profile also from dashboard. 3rd one is Admin Dashboard where admin can manages the appointment and admin can also manage the doctor profile.
+LegalSathi is a comprehensive legal consultation platform that connects clients with legal professionals. The platform features a three-tier authentication system to serve different user roles:
+
+## Key Features
+
+### For Clients
+- User registration and authentication
+- Browse and search for qualified lawyers
+- Book legal consultations (chat, video, phone)
+- Manage consultation history and documents
+- Access legal resources and IPC sections
+
+### For Lawyers
+- Professional profile management
+- Consultation scheduling and management
+- Video/audio call consultations
+- Client management system
+- Earnings tracking
+- Availability calendar
+
+### For Admin
+- User and lawyer management
+- Consultation monitoring
+- Platform analytics
+- Content management
+- Dispute resolution
+
+## Technology Stack
+- **Frontend**: React.js with Tailwind CSS
+- **Backend**: Node.js with Express
+- **Database**: MongoDB
+- **Authentication**: JWT
+- **Real-time Communication**: WebRTC for video calls
+- **Payments**: Integrated payment gateway
+
+## Getting Started
+
+### Prerequisites
+- Node.js (v14 or higher)
+- MongoDB
+- npm or yarn
+
+### Installation
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   cd frontend && npm install
+   cd ../backend && npm install
+   ```
+3. Set up environment variables
+4. Start the development servers:
+   ```bash
+   # Backend
+   cd backend && npm start
+   
+   # Frontend
+   cd frontend && npm run dev
+   ```
+
+## License
+This project is licensed under the MIT License.
